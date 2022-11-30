@@ -13,18 +13,35 @@ app.use(express.json())
 
 const db = [
     {
-        id: "0f517233-bd19-4894-b233-d7bdc010d29b",
-        name: "Diego Fernandes",
-        age: 29,
-        role: "aluno",
-        active: true,
-        tasks: [
-            "estudar aulas",
-            "refazer os exercícios da aula"
-        ]
-
-
-    }
+        id: "e27ab2b1-cb91-4b18-ab90-5895cc9abd29",
+        documentName: "Licitação Enap - Curso Web Dev",
+        status: "Em andamento",
+        details: "Processo para capacitação de servidores públicos em desenvolvimento de aplicações na WEB. Parceria com Ironhack",
+        dateInit: "28/11/2022",
+        comments: ["Processo aberto", "Processo partiu para as partes assinarem", "Processo agora está em análise final", "Processo já tem data final"],
+        dateEnd: "16/12/2022",
+        setor: "enap"
+      },
+      {
+        id: "ee5999d7-02e9-4b3d-a1ab-f067eef54173",
+        documentName: "Licitação Compras - Notebooks",
+        status: "Em andamento",
+        details: "Processo de licitação para compra de notebooks",
+        dateInit: "30/11/2022",
+        comments: ["Processo em aberto e sem previsão de conclusão"],
+        dateEnd: "",
+        setor: "tre"
+      },
+      {
+        id: "ee5999d7-02e9-4b3d-a1ab-f067eef54173",
+        documentName: "Licitação Compras - Ar Condicionado",
+        status: "Finalizado",
+        details: "Processo de licitação para compra de ar-condicionado",
+        dateInit: "15/11/2022",
+        comments: ["Processo em aberto", "Processo finalizado"],
+        dateEnd: "25/11/2022",
+        setor: "trj"
+      }
 ]
 
 //rotas
@@ -52,7 +69,7 @@ app.get("all-users", (req,res)=>{
 app.post("/newUser", (req, res) => {
     console.log(req.body);
   
-    let form = { ...req.body, id: "3d2ea553-a1ff-4e59-bf04-31fafd1bd02c" };
+    let form = { ...req.body, id: uuidv4() };
   
     db.push(form);
   
@@ -61,6 +78,22 @@ app.post("/newUser", (req, res) => {
       message: "Usuário criado!",
     });
   });
+
+  //DELETE
+
+  app.delete("/delete/:id", (req,res) =>{
+    console.log(req.params.id);
+    const {id} = req.params;
+    console.log(id)
+
+const deleteById = db.find((user)=> user.id === id)
+const index = db.indexOf(deleteById)
+
+db.splice(index, 1)
+
+
+    return res.status(200).json();
+  } );
 
 
 
